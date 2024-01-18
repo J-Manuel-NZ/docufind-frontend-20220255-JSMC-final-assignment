@@ -2,16 +2,20 @@
 
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
 import { FaSave } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 
 const AddFile = () => {
+  const router = useRouter();
   const [file, setFile] = useState("Choose File");
   const [title, setTitle] = useState("");
   const [id, setID] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [notes, setNotes] = useState("");
+
 
   const submitDocument = async(e) => {
     e.preventDefault();
@@ -28,10 +32,13 @@ const AddFile = () => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    });
-    console.log(result)
-
+    }).then((response) => {;
+    console.log(response);
+    router.push("/dashboard");
+    }).catch((error) => {console.log(error);})
   }
+
+ 
 
   useEffect(() => {
     console.log("Category: ", category);

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { IoSearch } from "react-icons/io5";
 import DocumentTile from '@/components/DocumentTile';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 // const documents = [
 //   {
@@ -38,12 +39,16 @@ import axios from 'axios';
 // ];
 
 const Dashboard = () => {
-
+  const router = useRouter();
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
     getDocuments();
   }, [])
+
+  const refreshData = () => {
+    getDocuments();
+  }
 
 
   const getDocuments = async () => {
@@ -73,10 +78,12 @@ const Dashboard = () => {
             key={document.id}
             title={document.title}
             id={document.id}
+            db_id={document._id}
             description={document.description}
             category={document.category}
-            pdfUrl={document.file}
+            pdf={document.documentFile}
             notes={document.notes}
+            refresh={refreshData}
           />
         ))}
       </div>
