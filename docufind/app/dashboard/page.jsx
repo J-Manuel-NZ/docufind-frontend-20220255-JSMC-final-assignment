@@ -1,41 +1,57 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import { IoSearch } from "react-icons/io5";
 import DocumentTile from '@/components/DocumentTile';
+import axios from 'axios';
 
-const documents = [
-  {
-    id: 1,
-    title: "Medical History Form",
-    pdfUrl: "https://example.com/medical-history.pdf",
-    description: "Form to collect patient's medical history information."
-  },
-  {
-    id: 2,
-    title: "Consent Form",
-    pdfUrl: "https://example.com/consent-form.pdf",
-    description: "Form to obtain patient's consent for medical procedures."
-  },
-  {
-    id: 3,
-    title: "Insurance Information Form",
-    pdfUrl: "https://example.com/insurance-info.pdf",
-    description: "Form to collect patient's insurance information."
-  },
-  {
-    id: 4,
-    title: "Release of Information Form",
-    pdfUrl: "https://example.com/release-of-info.pdf",
-    description: "Form to authorize the release of patient's medical records."
-  },
-  {
-    id: 5,
-    title: "HIPAA Privacy Notice",
-    pdfUrl: "https://example.com/hipaa-privacy-notice.pdf",
-    description: "Notice explaining patient's rights regarding the privacy of their health information."
-  }
-];
+// const documents = [
+//   {
+//     id: 1,
+//     title: "Medical History Form",
+//     pdfUrl: "https://example.com/medical-history.pdf",
+//     description: "Form to collect patient's medical history information."
+//   },
+//   {
+//     id: 2,
+//     title: "Consent Form",
+//     pdfUrl: "https://example.com/consent-form.pdf",
+//     description: "Form to obtain patient's consent for medical procedures."
+//   },
+//   {
+//     id: 3,
+//     title: "Insurance Information Form",
+//     pdfUrl: "https://example.com/insurance-info.pdf",
+//     description: "Form to collect patient's insurance information."
+//   },
+//   {
+//     id: 4,
+//     title: "Release of Information Form",
+//     pdfUrl: "https://example.com/release-of-info.pdf",
+//     description: "Form to authorize the release of patient's medical records."
+//   },
+//   {
+//     id: 5,
+//     title: "HIPAA Privacy Notice",
+//     pdfUrl: "https://example.com/hipaa-privacy-notice.pdf",
+//     description: "Notice explaining patient's rights regarding the privacy of their health information."
+//   }
+// ];
 
 const Dashboard = () => {
+
+  const [documents, setDocuments] = useState([]);
+
+  useEffect(() => {
+    getDocuments();
+  }, [])
+
+
+  const getDocuments = async () => {
+    const result = await axios.get("http://localhost:3000/get-files");
+    console.log(result.data.data);
+    setDocuments(result.data.data);
+  }
+
   return (
     <main className='flex flex-col bg-darkGrey p-10 w-full'>
       <div className='flex bg-grey p-2 px-4 rounded-full shadow-md'>
@@ -56,9 +72,11 @@ const Dashboard = () => {
           <DocumentTile
             key={document.id}
             title={document.title}
-            description={document.description}
-            pdfUrl={document.pdfUrl}
             id={document.id}
+            description={document.description}
+            category={document.category}
+            pdfUrl={document.file}
+            notes={document.notes}
           />
         ))}
       </div>

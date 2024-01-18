@@ -3,11 +3,17 @@ import { FaTrashAlt } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 
 
-const DocumentTile = ({title, description, id, pdf}) => {
+const DocumentTile = ({title, description, id, pdf, category, notes}) => {
   return (
     <div className='flex mb-4 w-full bg-grey rounded-lg shadow-md p-4 items-center justify-between'>
         <div className='flex flex-col gap-1'>
+          <div className='flex gap-4'>
             <h1 className='text-xl font-medium'>{title}</h1>
+            <div className='bg-darkGrey rounded-full px-2 py-1 flex items-center justify-center shadow-md'>
+              <p className='font-medium text-lightGrey text-xs'>{category}</p>
+            </div>
+
+          </div>
             <p className='text-sm font-light'>DOC_ID: {id}</p>
             <p className='font-light'>{description}</p>
             {/* <a href={pdf} className='text-lg'>View PDF</a> */}
