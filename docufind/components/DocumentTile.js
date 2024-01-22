@@ -17,6 +17,8 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
   const [newID, setNewID] = useState(id);
 
 
+
+
   // Edit document
   const updateDocument = async () => {
     try {
@@ -66,11 +68,15 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
                   className="rounded-full bg-midGrey p-2 mb-2 text-darkGrey font-semibold"
                 >
                   <option value="">Select Category</option>
-                  <option value="medical">Medical</option>
-                  <option value="insurance">Insurance</option>
-                  <option value="financial">Financial</option>
-                  <option value="legal">Legal</option>
-                  <option value="other">Other</option>
+                  <option value="Canterbury Health Laboratories">Canterbury Health Laboratories</option>
+                  <option value="Gender Testing/DNA">Gender Testing/DNA</option>
+                  <option value="Insurance">Insurance</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Misc. (Acute Demand, 24hr Surgery, Hepatitis Foundation)">Misc. (Acute Demand, 24hr Surgery, Hepatitis Foundation)</option>
+                  <option value="Animal Tests (Gribbles)">Animal Tests (Gribbles)</option>
+                  <option value="NZBS">NZBS</option>
+                  <option value="Endoscopes, Environmental Swabs, RCPA">Endoscopes, Environmental Swabs, RCPA</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
               </>
