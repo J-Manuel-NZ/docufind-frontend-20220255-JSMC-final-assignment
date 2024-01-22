@@ -5,39 +5,6 @@ import DocumentTile from '@/components/DocumentTile';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-// const documents = [
-//   {
-//     id: 1,
-//     title: "Medical History Form",
-//     pdfUrl: "https://example.com/medical-history.pdf",
-//     description: "Form to collect patient's medical history information."
-//   },
-//   {
-//     id: 2,
-//     title: "Consent Form",
-//     pdfUrl: "https://example.com/consent-form.pdf",
-//     description: "Form to obtain patient's consent for medical procedures."
-//   },
-//   {
-//     id: 3,
-//     title: "Insurance Information Form",
-//     pdfUrl: "https://example.com/insurance-info.pdf",
-//     description: "Form to collect patient's insurance information."
-//   },
-//   {
-//     id: 4,
-//     title: "Release of Information Form",
-//     pdfUrl: "https://example.com/release-of-info.pdf",
-//     description: "Form to authorize the release of patient's medical records."
-//   },
-//   {
-//     id: 5,
-//     title: "HIPAA Privacy Notice",
-//     pdfUrl: "https://example.com/hipaa-privacy-notice.pdf",
-//     description: "Notice explaining patient's rights regarding the privacy of their health information."
-//   }
-// ];
-
 const Dashboard = () => {
   const router = useRouter();
   const [documents, setDocuments] = useState([]);
