@@ -5,11 +5,12 @@ import { FaUserPlus } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useAppContext } from '@/app/context';
 
 
 
 const AddUser = () => {
-  console.log("ADDUSER: " + JSON.stringify(user))
+  const { userData } = useAppContext();
   const router = useRouter();
   const [name, setName] = useState("");
   const [id, setID] = useState("");
@@ -19,6 +20,10 @@ const AddUser = () => {
 
   const [existsMessage, setExistsMessage] = useState(false);
 
+  if (!userData) {
+    console.log("User not logged in")
+    router.push("/");
+  }
 
 
   const registerUser = async(e) => {
@@ -30,13 +35,6 @@ const AddUser = () => {
     formData.append("password", password);
     formData.append("admin", admin);
     console.log(name, id, email, password, admin);
-
-    useEffect(() => {
-      if (user.authenticated === false) {
-        console.log("User not authenticated")
-        router.push("/");
-      }
-    }, []);
 
     await axios.post("http://localhost:3000/auth/register", formData, {
       headers: {

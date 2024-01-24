@@ -10,8 +10,7 @@ import UserContext from '../userStore';
 import { useAppContext } from '@/app/context';
 
 const Dashboard = () => {
-  const {user} = useAppContext();
-  console.log("DASHBOARD: " + JSON.stringify(user))
+  const { userData } = useAppContext();
   const router = useRouter();
   const [documents, setDocuments] = useState([]);
   const [documentsRetrieved, setDocumentsRetrieved] = useState([]);
@@ -29,12 +28,10 @@ const Dashboard = () => {
     {name: "Other", label: "Other"},
   ]
 
-  useEffect(() => {
-    if (user.userAuthenticated === false) {
-      console.log("User not authenticated")
-      router.push("/");
-    }
-  }, []);
+  if (!userData) {
+    console.log("User not logged in")
+    router.push("/");
+  }
 
   // filter options
   const [filterParams, setFilterParams] = useState([]);
@@ -57,11 +54,13 @@ const Dashboard = () => {
   const resetFilterParams = () => {
     setFilterParams([]);
     getDocuments();
+    console.log("Documents retrieved: ", documentsRetrieved)
   }
 
   useEffect(() => {
     callAPI();
-    getDocuments();
+    // resetFilterParams();
+    // getDocuments();
   }, [])
 
   useEffect(() => {
@@ -78,6 +77,8 @@ const Dashboard = () => {
   const callAPI = async () => {
     const result = await axios.get("http://localhost:3000/get-files");
     setDocumentsRetrieved(result.data.data);
+    resetFilterParams();
+    getDocuments();
   }
 
   // This function handles the search query and filter params

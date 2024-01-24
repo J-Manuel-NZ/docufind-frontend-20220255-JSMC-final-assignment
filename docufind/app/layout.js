@@ -1,4 +1,5 @@
 'use client'
+
 import { Inter } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import './globals.css'
@@ -18,7 +19,6 @@ export default function RootLayout({ children }) {
 
   const pathname = usePathname();
   return (
-    
     <AppWrapper>
       <html lang="en">
         <head>
@@ -34,6 +34,6 @@ export default function RootLayout({ children }) {
           </section>
         </body>
       </html>
-    </AppWrapper>
+      </AppWrapper>
   )
 }

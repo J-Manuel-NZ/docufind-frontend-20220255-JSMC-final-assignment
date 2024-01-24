@@ -11,7 +11,6 @@ import { useAppContext } from '@/app/context';
 
 const AddFile = () => {
   const {user} = useAppContext();
-  console.log("ADDFILE: " + JSON.stringify(user))
   const router = useRouter();
   const [file, setFile] = useState("Choose File");
   const [title, setTitle] = useState("");
@@ -32,12 +31,10 @@ const AddFile = () => {
     formData.append("notes", notes);
     console.log(file, title, category, description, notes);
 
-    useEffect(() => {
-      if (user.userAuthenticated === false) {
-        console.log("User not authenticated")
-        router.push("/");
-      }
-    }, []);
+    if (!userData) {
+      console.log("User not logged in")
+      router.push("/");
+    }
 
     const result = await axios.post("http://localhost:3000/upload-files", formData, {
       headers: {

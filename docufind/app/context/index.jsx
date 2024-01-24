@@ -1,23 +1,25 @@
 "use client"
-import {createContext, useState, useContext, useMemo} from 'react';
+import {createContext, useState, useContext, useEffect, useMemo} from 'react';
+
 
 const AppContext = createContext({});
 
 export function AppWrapper({children}) {
-    const [user, setUser] = useState({
-        name: '',
-        email: '',
-        employeeID: '',
-        isAdmin: false,
-        userAuthenticated: false,
-    });
+  const [userData, setUserData] = useState(
+    () => JSON.parse(window.localStorage.getItem('userData')) || null
+  );
+    
+  useEffect(() => {
+    // Update localStorage when userData changes
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }, [userData]);
 
-    const userValue = useMemo(
-      () => ({user, setUser}),
-      [user, setUser]);
+  const updateUserData = (data) => {
+    setUserData(data);
+  };
 
   return (
-    <AppContext.Provider value={userValue}>
+    <AppContext.Provider value={{ userData, updateUserData}}>
         {children}
     </AppContext.Provider>
   );

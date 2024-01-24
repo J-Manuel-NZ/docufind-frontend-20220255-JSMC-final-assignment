@@ -1,16 +1,16 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import RootLayout from './layout'
 import Logo from '../assets/docufind_logo.png'
 import Illustration from '../assets/illustration.png'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { setUser } from './userStore'
 
 import { useAppContext } from '@/app/context';
 
 export default function Home() {
-  const {setUser} = useAppContext();
+  const { userData, updateUserData } = useAppContext();
   const router = useRouter();
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
@@ -27,15 +27,9 @@ export default function Home() {
       },
       }).then((response) => {
         const userDetails = response.data.data;
-        console.log("USER: " + JSON.stringify(userDetails))
+        console.log("User logged in: " + JSON.stringify(userDetails))
         if (response.data.status === 'User authenticated') {
-          setUser({
-            name: userDetails.name,
-            email: userDetails.email,
-            employeeID: userDetails.employeeID,
-            isAdmin: userDetails.isAdmin,
-            userAuthenticated: true,
-          })
+          updateUserData(userDetails);
           router.push('/dashboard');
         } else {
           setUserNotFound(true);
