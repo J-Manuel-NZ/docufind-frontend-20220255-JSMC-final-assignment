@@ -1,13 +1,17 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { IoSearch } from "react-icons/io5";
 import { BiRefresh, BiTimer } from 'react-icons/bi';
 import DocumentTile from '@/components/DocumentTile';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useFetcher } from 'react-router-dom';
+import UserContext from '../userStore';
+import { useAppContext } from '@/app/context';
 
 const Dashboard = () => {
+  const {user} = useAppContext();
+  console.log("DASHBOARD: " + JSON.stringify(user))
   const router = useRouter();
   const [documents, setDocuments] = useState([]);
   const [documentsRetrieved, setDocumentsRetrieved] = useState([]);
@@ -24,6 +28,13 @@ const Dashboard = () => {
     {name: "Endoscopes, Environmental Swabs, RCPA", label: "Endoscopes, Environmental Swabs, RCPA"},
     {name: "Other", label: "Other"},
   ]
+
+  useEffect(() => {
+    if (user.userAuthenticated === false) {
+      console.log("User not authenticated")
+      router.push("/");
+    }
+  }, []);
 
   // filter options
   const [filterParams, setFilterParams] = useState([]);
@@ -50,7 +61,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     callAPI();
-  })
+    getDocuments();
+  }, [])
 
   useEffect(() => {
     getDocuments();
@@ -123,8 +135,8 @@ const Dashboard = () => {
         </div>
 
         {/* ALL filter options */}
-        {allParamPills.map((param) => (
-          <div onClick={() => addFilterParams(param.name)}
+        {allParamPills.map((param, index) => (
+          <div key={index} onClick={() => addFilterParams(param.name)}
             className={filterParams.includes(param.name)
             ? "bg-midGrey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-darkGrey cursor-pointer" 
             : "bg-grey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-lightGrey cursor-pointer"}>
