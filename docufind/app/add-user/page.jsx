@@ -2,21 +2,25 @@
 
 import React, { useState, useEffect, useContext } from 'react'
 import { FaUserPlus } from "react-icons/fa6";
+import Image from 'next/image';
 import { MdCancel } from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useAppContext } from '@/app/context';
+import Illustration from '../../assets/illustration.png'
 
 
 
 const AddUser = () => {
   const { userData } = useAppContext();
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Molly James");
   const [id, setID] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState(false);
+
+  const [userAddedMessage, setUserAddedMessage] = useState(false);
 
   const [existsMessage, setExistsMessage] = useState(false);
 
@@ -45,13 +49,24 @@ const AddUser = () => {
       if (response.data.status === 'User already exists') {
         setExistsMessage(true);
       } else {
-        alert('User added successfully');
+        setUserAddedMessage(true);
       }
     }).catch((error) => {console.log(error);})
   }
 
   return (
-    <main className='flex flex-col bg-darkGrey p-10 w-full'>
+    <main className='flex flex-col bg-darkGrey pt-16 md:pt-10 h-screen p-4 md:p-10 w-full'>
+      {userAddedMessage 
+      ? 
+      <div className='flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0 md:justify-between h-full'>
+        <div className='text-center'>
+          <h3 className='font-light text-4xl mb-16'>Successfully added 
+          <span className='text-accent'> {name}</span>!</h3> 
+          <p className='font-light text-3xl'>They may now log in to view your documents.</p> 
+        </div>
+        <Image src={Illustration} alt="Illustration of a person" width="100%" height="auto" />
+      </div>
+      : 
         <form className='flex flex-col'>
 
           <label className='mb-2 text-lightGrey'>Employee Name:</label>
@@ -109,6 +124,7 @@ const AddUser = () => {
         </div>
         {existsMessage ? <p className='text-red/90 mt-4'>*Email is already in use!</p> : null}
         </form>
+        }
     </main>
   )
 }

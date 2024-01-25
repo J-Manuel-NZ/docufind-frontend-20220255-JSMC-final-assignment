@@ -8,7 +8,7 @@ import { useAppContext } from '../app/context/index';
 
 
 
-const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refresh}) => {
+const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refresh, testParams}) => {
   // Allow editing
   const [editing, setEditing] = useState(false);
 
@@ -44,7 +44,7 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
   
 
   return (
-    <div className="flex mb-4 w-full bg-grey rounded-lg shadow-md p-4 items-center justify-between">
+    <div className="flex flex-col gap-2 md:flex-row mb-4 w-full bg-grey rounded-lg shadow-md p-4 md:items-center justify-between">
       <div className="flex flex-col gap-1">
         <div className={editing ? "flex-row" : "" + " flex gap-4"}>
           {/* TITLE */}
@@ -93,7 +93,7 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
             </>
           ) : (
             <div className="bg-darkGrey rounded-full px-2 py-1 flex items-center justify-center shadow-md">
-              <p className="font-medium text-lightGrey text-xs">{category}</p>
+              <p className="font-medium text-center text-lightGrey text-xs">{category}</p>
             </div>
           )}
         </div>
@@ -124,14 +124,14 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
           <p className="font-light">{description}</p>
         )}
       </div>
-      <div className="flex gap-6 items-center">
+      <div className="flex gap-6 items-center w-full md:w-auto justify-between md:justify-normal">
         <div
           onClick={() => showPDF(pdf)}
           className="cursor-pointer flex items-center justify-center p-2 px-6 bg-accent text-white text-xl rounded-lg shadow-md"
         >
           View
         </div>
-        {userData.isAdmin ? 
+        {userData && userData.isAdmin || testParams && testParams.isAdmin ? 
         <div className='flex items-center gap-6'>
           {/* EDIT BUTTON */}
           {editing ? (
@@ -143,6 +143,7 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
             />
           ) : (
             <MdOutlineEdit
+              data-testid="edit-button"
               size={36}
               color="#F4F9E9"
               className="cursor-pointer"

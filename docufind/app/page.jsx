@@ -5,7 +5,6 @@ import Logo from '../assets/docufind_logo.png'
 import Illustration from '../assets/illustration.png'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
-import { setUser } from './userStore'
 
 import { useAppContext } from '@/app/context';
 
@@ -39,8 +38,8 @@ export default function Home() {
     }
 
   return (
-    <main className="flex items-center justify-center bg-darkGrey w-full h-full p-10">
-      <div className="flex flex-col items-center justify-center md:flex-row">
+    <main className="flex items-center justify-center overflow-y-auto bg-darkGrey w-full h-full p-10">
+      <div className="flex flex-col items-center justify-start md:flex-row">
         <div className="flex flex-col items-center gap-16">
           <Image src={Logo} alt="Docufind Logo" width="100%" height="auto" />
           {/* SIGN IN FORM */}
@@ -73,7 +72,7 @@ export default function Home() {
             ? <p className="text-center text-red/90 font-light">User not found</p>
             : null}
 
-          <p className="text-center mt-4 font-light">
+          <p className="text-center mt-4 font-light mb-8">
             to create an account,
             <br />
             please contact your IT department

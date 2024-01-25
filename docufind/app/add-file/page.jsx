@@ -53,7 +53,7 @@ const AddFile = () => {
   }, [category]);
 
   return (
-    <main className='flex flex-col bg-darkGrey p-10 w-full'>
+    <main className='flex flex-col bg-darkGrey pt-16 md:pt-10 h-screen p-4 md:p-10 w-full'>
         <form className='flex flex-col' onSubmit={submitDocument}>
 
           {/* NAME */}
@@ -89,8 +89,9 @@ const AddFile = () => {
           <label className='mb-2 text-lightGrey'>Category:</label>
           <div>
             <select 
-            onChange={(e) => setCategory(e.target.value)}
-              className='rounded-full bg-midGrey p-2 mb-6 text-darkGrey font-semibold'
+              data-testid='category-dropdown'
+              onChange={(e) => setCategory(e.target.value)}
+              className='rounded-full bg-midGrey p-2 mb-6 w-full max-w-[432px] text-darkGrey font-semibold'
             >
               <option value="">Select Category</option>
               <option value="Canterbury Health Laboratories">Canterbury Health Laboratories</option>
@@ -111,7 +112,7 @@ const AddFile = () => {
           onChange={(e) => setDescription(e.target.value)}
           required
           type='text'
-          className='w-full bg-darkGrey p-2 rounded-full mb-6 text-[#fff] placeholder:text-lightGrey/50 focus:placeholder-opacity-0 focus:border-none focus:outline-none border-none '
+          className='flex bg-darkGrey p-2 rounded-full mb-6 text-[#fff] placeholder:text-lightGrey/50 focus:placeholder-opacity-0 focus:border-none focus:outline-none border-none '
           placeholder='Describe the document in as much detail as possible.'
         />
 

@@ -19,8 +19,7 @@ export default function RootLayout({ children }) {
 
   const pathname = usePathname();
   return (
-    <AppWrapper>
-      <html lang="en">
+    <html lang="en">
         <head>
           <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
@@ -28,12 +27,13 @@ export default function RootLayout({ children }) {
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         </head>
         <body className={inter.className}>
-          <section className='flex h-screen'>
+        <AppWrapper>
+          <section className='flex overflow-y-auto h-screen bg-darkGrey'>
             {pathname === '/' ? null : <Navbar />}
             {children}
           </section>
+      </AppWrapper>
         </body>
       </html>
-      </AppWrapper>
   )
 }

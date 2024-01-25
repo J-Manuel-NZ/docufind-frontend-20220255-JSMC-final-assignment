@@ -113,9 +113,10 @@ const Dashboard = () => {
   }
 
   return (
-    <main className='flex flex-col bg-darkGrey p-10 w-full'>
+    <main className='flex flex-col bg-darkGrey pt-16 md:pt-10 p-4 md:p-10 w-full'>
       <div className='flex bg-grey p-2 px-4 rounded-full shadow-md'>
         <input
+          data-testid='search-input'
           onInput={(e) => setSearchQuery(e.target.value)}
           type='text'
           className='w-full bg-grey text-[#fff] placeholder:text-lightGrey/50 focus:placeholder-opacity-0 focus:border-none focus:outline-none border-none '
