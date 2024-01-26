@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useFetcher } from 'react-router-dom';
 import UserContext from '../userStore';
 import { useAppContext } from '@/app/context';
+import nodeServerRoute from '../localServerConfig';
 
 const Dashboard = () => {
   const { userData } = useAppContext();
@@ -75,7 +76,7 @@ const Dashboard = () => {
  
   // Retrieve all documents from database
   const callAPI = async () => {
-    const result = await axios.get("http://localhost:3000/get-files");
+    const result = await axios.get(`${nodeServerRoute}/get-files`);
     setDocumentsRetrieved(result.data.data);
     resetFilterParams();
     getDocuments();

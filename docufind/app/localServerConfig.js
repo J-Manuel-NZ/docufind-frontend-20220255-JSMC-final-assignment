@@ -1,0 +1,1 @@
+export default nodeServerRoute = 'http://localhost:3000';

@@ -6,6 +6,8 @@ import Illustration from '../assets/illustration.png'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
+import nodeServerRoute from './localServerConfig'
+
 import { useAppContext } from '@/app/context';
 
 export default function Home() {
@@ -20,7 +22,7 @@ export default function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axios.post("http://localhost:3000/auth/sign-in", loginDetails, {
+    await axios.post(`${nodeServerRoute}/auth/sign-in`, loginDetails, {
       headers: {
         "Content-Type": "application/json",
       },

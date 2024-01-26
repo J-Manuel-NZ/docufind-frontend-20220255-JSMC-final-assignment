@@ -9,6 +9,8 @@ import axios from 'axios';
 import { useAppContext } from '@/app/context';
 import Illustration from '../../assets/illustration.png'
 
+import nodeServerRoute from '../localServerConfig';
+
 
 
 const AddUser = () => {
@@ -40,7 +42,7 @@ const AddUser = () => {
     formData.append("admin", admin);
     console.log(name, id, email, password, admin);
 
-    await axios.post("http://localhost:3000/auth/register", formData, {
+    await axios.post(`${nodeServerRoute}/auth/register`, formData, {
       headers: {
         "Content-Type": "application/json",
       },

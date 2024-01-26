@@ -9,6 +9,8 @@ import { MdCancel } from "react-icons/md";
 
 import { useAppContext } from '@/app/context';
 
+import nodeServerRoute from '../localServerConfig';
+
 const AddFile = () => {
   const {user} = useAppContext();
   const router = useRouter();
@@ -36,7 +38,7 @@ const AddFile = () => {
       router.push("/");
     }
 
-    const result = await axios.post("http://localhost:3000/upload-files", formData, {
+    const result = await axios.post(`${nodeServerRoute}/upload-files`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
