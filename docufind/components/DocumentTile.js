@@ -1,16 +1,18 @@
 'use client'
 import React, { useState } from 'react'
-import { FaTrashAlt } from "react-icons/fa";
-import { MdOutlineEdit } from "react-icons/md";
+
+import { MdOutlineEdit, MdOutlineAutoDelete, MdOutlineDelete } from "react-icons/md";
 import { BiCheck } from 'react-icons/bi';
 import axios from 'axios';
 import { useAppContext } from '../app/context/index';
+import nodeServerRoute from '../app/localServerConfig';
 
 
 
 const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refresh, testParams}) => {
   // Allow editing
   const [editing, setEditing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const {userData} = useAppContext();
 
@@ -25,7 +27,7 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
   // Edit document
   const updateDocument = async () => {
     try {
-      await axios.put(`http://localhost:3000/update/${db_id}`, {title: newTitle, description: newDescription, category: newCategory, id: newID});
+      await axios.put(`${nodeServerRoute}/update/${db_id}`, {title: newTitle, description: newDescription, category: newCategory, id: newID});
       setEditing(false);
       refresh();
     } catch (err) {
@@ -35,16 +37,17 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
 
 
   const showPDF = (pdf) => {
-    window.open(`http://localhost:3000/files/${pdf}`, '_blank');
+    window.open(`${nodeServerRoute}/files/${pdf}`, '_blank');
   }
   const deleteDocument = async () => {
-        await axios.delete(`http://localhost:3000/${db_id}/delete`)
+        setDeleting(true);
+        await axios.delete(`${nodeServerRoute}/${db_id}/delete`)
         refresh();
     }
   
 
   return (
-    <div className="flex flex-col gap-2 md:flex-row mb-4 w-full bg-grey rounded-lg shadow-md p-4 md:items-center justify-between">
+    <div className="flex flex-col gap-2 lg:flex-row mb-4 w-full bg-grey rounded-lg shadow-md p-4 md:items-center justify-between">
       <div className="flex flex-col gap-1">
         <div className={editing ? "flex-row" : "" + " flex gap-4"}>
           {/* TITLE */}
@@ -127,7 +130,7 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
       <div className="flex gap-6 items-center w-full md:w-auto justify-between md:justify-normal">
         <div
           onClick={() => showPDF(pdf)}
-          className="cursor-pointer flex items-center justify-center p-2 px-6 bg-accent text-white text-xl rounded-lg shadow-md"
+          className="cursor-pointer flex items-center justify-center p-2 px-6 bg-accent text-white text-xl rounded-lg shadow-md border border-accent transition-all hover:border-lightGrey hover:border"
         >
           View
         </div>
@@ -146,16 +149,24 @@ const DocumentTile = ({title, description, id, pdf, category, notes, db_id, refr
               data-testid="edit-button"
               size={36}
               color="#F4F9E9"
-              className="cursor-pointer"
+              className="cursor-pointer hover:opacity-80 transition-all"
               onClick={() => setEditing(true)}
             />
           )}
-          <FaTrashAlt
-            size={28}
+
+          {deleting
+          ?<MdOutlineAutoDelete
+            size={36}
             color="#FF3E3E"
-            className="cursor-pointer"
+            className="cursor-pointer opacity-75"
             onClick={() => deleteDocument()}
           />
+          :<MdOutlineDelete
+            size={36}
+            color="#FF3E3E"
+            className="cursor-pointer hover:scale-110 transition-all"
+            onClick={() => deleteDocument()}
+          />}
         </div>
         : null}
       </div>

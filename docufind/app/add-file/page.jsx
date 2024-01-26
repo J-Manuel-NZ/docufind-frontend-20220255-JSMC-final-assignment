@@ -4,15 +4,15 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaFileUpload } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-
+import { MdOutlineDownloading } from 'react-icons/md';
 import { useAppContext } from '@/app/context';
 
 import nodeServerRoute from '../localServerConfig';
 
 const AddFile = () => {
-  const {user} = useAppContext();
+  const {userData} = useAppContext();
   const router = useRouter();
   const [file, setFile] = useState("Choose File");
   const [title, setTitle] = useState("");
@@ -20,9 +20,16 @@ const AddFile = () => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [notes, setNotes] = useState("");
+  const [saving, setSaving] = useState(false);
 
+  
+  if (!userData) {
+    console.log("User not logged in")
+    router.push("/");
+  }
 
   const submitDocument = async(e) => {
+    setSaving(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", file);
@@ -32,11 +39,6 @@ const AddFile = () => {
     formData.append("description", description);
     formData.append("notes", notes);
     console.log(file, title, category, description, notes);
-
-    if (!userData) {
-      console.log("User not logged in")
-      router.push("/");
-    }
 
     const result = await axios.post(`${nodeServerRoute}/upload-files`, formData, {
       headers: {
@@ -78,12 +80,12 @@ const AddFile = () => {
         />
 
           {/* FILE */}
-          <label className='mb-2 text-lightGrey'>Upload File:</label>
+          <label className='mb-2 text-lightGrey '>Upload File:</label>
           <input 
           onChange={(e) => setFile(e.target.files[0])}
             required 
             type='file' 
-            className='mb-6' 
+            className='mb-6 cursor-pointer' 
             accept='application/pdf' 
           />
 
@@ -93,7 +95,7 @@ const AddFile = () => {
             <select 
               data-testid='category-dropdown'
               onChange={(e) => setCategory(e.target.value)}
-              className='rounded-full bg-midGrey p-2 mb-6 w-full max-w-[432px] text-darkGrey font-semibold'
+              className='rounded-full cursor-pointer transition-all bg-midGrey p-2 mb-6 w-full max-w-[432px] text-darkGrey font-semibold'
             >
               <option value="">Select Category</option>
               <option value="Canterbury Health Laboratories">Canterbury Health Laboratories</option>
@@ -128,13 +130,17 @@ const AddFile = () => {
         />
 
         <div className='flex gap-4'>
-
-          <button className='flex gap-2 bg-accent rounded-lg py-2 px-5 text-xl items-center shadow-md'>
+          {saving
+          ? <button className='flex gap-2 bg-accent/50 rounded-lg py-2 px-5 text-xl items-center shadow-md'>
+            <MdOutlineDownloading size={24} />
+            <p className='italic opacity-50'>Saving...</p>
+          </button>
+          : <button className='flex gap-2 bg-accent rounded-lg py-2 px-5 text-xl items-center shadow-md border border-accent transition-all hover:border-lightGrey hover:border'>
             <FaSave size={24} />
             <p>Save</p>
-          </button>
+          </button>}
           
-          <button className='flex gap-2 bg-grey rounded-lg py-2 px-5 text-lightGrey text-xl items-center shadow-md'>
+          <button className='flex gap-2 bg-grey rounded-lg py-2 px-5 text-lightGrey text-xl items-center shadow-md border border-grey hover:border-grey/50 hover:bg-midGrey/50 transition-all'>
             <MdCancel size={24} />
             <p>Cancel</p>
           </button>

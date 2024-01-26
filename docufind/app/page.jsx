@@ -11,6 +11,7 @@ import nodeServerRoute from './localServerConfig'
 import { useAppContext } from '@/app/context';
 
 export default function Home() {
+  const [signingIn, setSigningIn] = useState(false);
   const { userData, updateUserData } = useAppContext();
   const router = useRouter();
   const [password, setPassword] = useState('')
@@ -22,6 +23,7 @@ export default function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setSigningIn(true);
     await axios.post(`${nodeServerRoute}/auth/sign-in`, loginDetails, {
       headers: {
         "Content-Type": "application/json",
@@ -62,10 +64,13 @@ export default function Home() {
               className="w-full bg-darkGrey p-2 rounded-full mb-6 text-[#fff] placeholder:text-lightGrey/50 focus:placeholder-opacity-0 focus:border-none focus:outline-none border-none "
               placeholder="********"
             />
-
-            <button onClick={handleSubmit}  className="flex gap-2 bg-accent rounded-full min-w-40 justify-center py-2 w-full text-xl items-center shadow-md">
+            {signingIn
+            ? <div className="flex gap-2 bg-accent/50 rounded-full min-w-40 justify-center py-2 w-full text-xl items-center shadow-md">
+              <p className='italic opacity-50'>Signing in...</p>
+            </div>
+            : <button onClick={handleSubmit}  className="flex gap-2 bg-accent rounded-full min-w-40 justify-center py-2 w-full text-xl items-center border border-accent shadow-md hover:border hover:border-lightGrey transition-all">
               <p>Sign In</p>
-            </button>
+            </button>}
           </form>
           {/* ____________________________________ */}
 

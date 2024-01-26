@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { FaUserPlus } from "react-icons/fa6";
 import Image from 'next/image';
 import { MdCancel } from "react-icons/md";
+import { MdOutlineDownloading } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useAppContext } from '@/app/context';
@@ -21,6 +22,7 @@ const AddUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const [userAddedMessage, setUserAddedMessage] = useState(false);
 
@@ -112,13 +114,17 @@ const AddUser = () => {
         
 
         <div className='flex gap-4'>
-
-          <button onClick={registerUser} className='flex gap-2 bg-accent rounded-lg py-2 px-5 text-xl items-center shadow-md'>
+          {saving
+          ? <button onClick={registerUser} className='flex gap-2 bg-accent/50 rounded-lg py-2 px-5 text-xl items-center shadow-md'>
+            <MdOutlineDownloading size={24} />
+            <p className='italic opacity-50'>Adding user...</p>
+          </button>
+          : <button onClick={registerUser} className='flex gap-2 bg-accent rounded-lg py-2 px-5 text-xl items-center shadow-md border border-accent transition-all hover:border-lightGrey hover:border'>
             <FaUserPlus size={24} />
             <p>Add User</p>
-          </button>
+          </button>}
           
-          <button className='flex gap-2 bg-grey rounded-lg py-2 px-5 text-lightGrey text-xl items-center shadow-md'>
+          <button className='flex gap-2 bg-grey rounded-lg py-2 px-5 text-lightGrey text-xl items-center shadow-md border border-grey transition-all hover:bg-midGrey/50'>
             <MdCancel size={24} />
             <p>Cancel</p>
           </button>

@@ -134,7 +134,7 @@ const Navbar = ({testParams}) => {
               className={
                 pathname === "/dashboard"
                   ? "bg-midGrey p-2 rounded-lg text-grey font-semibold"
-                  : "p-2 font-semibold"
+                  : "p-2 font-semibold hover:bg-midGrey/25 rounded-lg transition-all"
               }
             >
               <Link href="/dashboard">
@@ -152,11 +152,11 @@ const Navbar = ({testParams}) => {
                   className={
                     pathname === "/add-file"
                       ? "bg-midGrey p-2 rounded-lg text-grey font-semibold"
-                      : "p-2 font-semibold"
+                      : "p-2 font-semibold hover:bg-midGrey/25 rounded-lg transition-all"
                   }
                 >
                   <Link href='/add-file' data-testid='addNewFileButton' >
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center ">
                     <p >Add New File</p>
                     <CgAdd size={24} />
                   </div>
@@ -166,7 +166,7 @@ const Navbar = ({testParams}) => {
                   className={
                     pathname === "/add-user"
                       ? "bg-midGrey p-2 rounded-lg text-grey font-semibold"
-                      : "p-2 font-semibold"
+                      : "p-2 font-semibold hover:bg-midGrey/25 rounded-lg transition-all"
                   }
                 >
 
@@ -182,7 +182,7 @@ const Navbar = ({testParams}) => {
             <div className="h-[2px] bg-lightGrey my-4 w-full" />
             <li>
     
-              <div onClick={handleSignOut} data-testid='signOutButton' className="flex gap-2 items-center text-base cursor-pointer">
+              <div onClick={handleSignOut} data-testid='signOutButton' className="flex gap-2 items-center text-base cursor-pointer hover:opacity-80">
                 <BiLogOutCircle size={24} />
                 <p >Sign Out</p>
               </div>

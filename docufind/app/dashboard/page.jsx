@@ -69,9 +69,10 @@ const Dashboard = () => {
   }, [filterParams, searchQuery])
 
   const refreshData = () => {
-    setRefreshing(true);
+    console.log("refreshing data...")
+    callAPI();
     getDocuments();
-    setRefreshing(false);
+    resetFilterParams()
   }
  
   // Retrieve all documents from database
@@ -114,7 +115,7 @@ const Dashboard = () => {
   }
 
   return (
-    <main className='flex flex-col bg-darkGrey pt-16 md:pt-10 p-4 md:p-10 w-full'>
+    <main className='flex flex-col bg-darkGrey pt-16 md:pt-10 p-4 md:p-10 w-full overflow-auto'>
       <div className='flex bg-grey p-2 px-4 rounded-full shadow-md'>
         <input
           data-testid='search-input'
@@ -132,8 +133,8 @@ const Dashboard = () => {
 
         <div onClick={resetFilterParams}
           className={filterParams.length==0 
-            ? "bg-midGrey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-darkGrey cursor-pointer" 
-            : "bg-grey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-lightGrey cursor-pointer"}>
+            ? "bg-midGrey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-darkGrey cursor-pointer transition-all" 
+            : "bg-grey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-lightGrey cursor-pointer bg-midGrey/50 transition-all"}>
           <p className="font-medium text-xs">All</p>
         </div>
 
@@ -141,8 +142,8 @@ const Dashboard = () => {
         {allParamPills.map((param, index) => (
           <div key={index} onClick={() => addFilterParams(param.name)}
             className={filterParams.includes(param.name)
-            ? "bg-midGrey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-darkGrey cursor-pointer" 
-            : "bg-grey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-lightGrey cursor-pointer"}>
+            ? "bg-midGrey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-darkGrey cursor-pointer transition-all" 
+            : "bg-grey rounded-full px-2 py-1 flex items-center justify-center shadow-md text-lightGrey cursor-pointer hover:bg-midGrey/50 transition-all"}>
             <p className="font-medium text-xs">{param.label}</p>
           </div>
         ))}
